@@ -18,16 +18,48 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Четырехзначное число назовем счастливым, если сумма первых двух ее цифр равна сумме двух последних.
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
-fun isNumberHappy(number: Int): Boolean = TODO()
+fun isNumberHappy(number: Int): Boolean {
+        var result = false
+        val prevSums = HashSet<Int>()
+        var n = number
+        while (!result && prevSums.add(n)) {
+            var sum = 0
+            while ( n > 0 ) {
+                val digit = n % 10
+                sum += Math.pow(digit.toDouble(), 2.0).toInt()
+                n /= 10
+            }
+            if (sum == 1 )
+                result = true
+        }
+        return result
+    }
+}
 
-/**
+/**1
  * Простая
  *
  * На шахматной доске стоят два ферзя (ферзь бьет по вертикали, горизонтали и диагоналям).
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  * Считать, что ферзи не могут загораживать друг друга.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
+    val queen1X = x(x1 + x2 + x3 + ... xn)
+    val queen1Y = y(y1 + y2 + y3 + ... Yn)
+    val queen1DX = (x / y)((x1 / y) + (x2 / y) + (x3 / y) + ...(xn / y))
+    val queen1DY = (y / x)((y1 / x) + (y2 / x) + (y3 / x) + ...(yn / x))
+
+    val queen2X = x(x1 + x2 + x3 + ... xn)
+    val queen2Y = y(y1 + y2 + y3 + ... Yn)
+    val queen2DX = (x / y)((x1 / y) + (x2 / y) + (x3 / y) + ...(xn / y))
+    val queen2DY = (y / x)((y1 / x) + (y2 / x) + (y3 / x) + ...(yn / x))
+    when {
+        (queen1X + queen1Y + queen1DX + queen1DY != queen2X + queen2Y + queen2DX + queen2DY) -> return false
+
+        (queen1X + queen1Y + queen1DX + queen1DY == queen2X + queen2Y + queen2DX + queen2DY) -> return true
+
+    }
+}
 
 
 /**
@@ -36,7 +68,11 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
  * Дан номер месяца (от 1 до 12 включительно) и год (положительный).
  * Вернуть число дней в этом месяце этого года по григорианскому календарю.
  */
-fun daysInMonth(month: Int, year: Int): Int = TODO()
+fun daysInMonth(month: Int, year: Int): Int {
+    return when {
+
+    }
+}
 
 /**
  * Средняя
