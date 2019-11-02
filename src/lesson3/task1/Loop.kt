@@ -2,6 +2,8 @@
 
 package lesson3.task1
 
+import java.lang.IllegalStateException
+import kotlin.math.pow
 import kotlin.math.sqrt
 
 /**
@@ -68,10 +70,52 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun digitNumber(n: Int): Int {
-    n < 10 -> 0
-    return digitCountInNumber(n / 10) + digitCountInNumber(n % 10)
-
+    var count = 0
+    var num = n
+    do {
+      num /= 10
+    count++
+    } while (num != 0)
+    return count
 }
+//    if (n in 0..9) return 1
+//    for (x in 1..n) {
+//            if ((n / 10.0.pow(x).toInt()) == 0) {
+//                return x
+//            }
+//    }
+//return 0
+//    //throw IllegalStateException()
+//}
+// if (n == 0) return 1
+
+//    var count = 0
+//    var num = n
+//    do {
+//      num /= 10
+//    count++
+//    } while (num != 0)
+//   return count
+//}
+    //val j: Int
+    //val x: Int
+    //val k: Int (0..x step 10 ^ j)
+    //if ((n / k) == 1) count 0 in k
+//    return (count)
+//    }
+//{
+    //var num = n
+    //while (num != 0) {
+      //  num /= 10
+        //++count
+   // }
+//    return count
+//}
+
+
+//    n < 10 -> 0
+//    return digitCountInNumber(n / 10) + digitCountInNumber(n % 10)
+
 
 
 /**
@@ -81,10 +125,20 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    when {(n == 1 || n == 2) -> return 1
-    else -> return fib(n - 2) + fib(n - 1)
+    var the1stnum: Int = 1
+    var the2ndnum: Int = 1
+    for ( i: Int in 3..n ) {
+        val thenextnum = the1stnum
+        the1stnum += the2ndnum
+        the2ndnum = thenextnum
+    }
+    return the1stnum
 }
-}
+//return fb1
+   // when {(n == 1 || n == 2) -> return 1
+ //   else -> return fib(n - 2) + fib(n - 1)
+//}
+//}
 /**
  * Простая
  *
@@ -92,8 +146,18 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-        return m * n
+    var num1 = m
+    var num2 = n
+    while (num1 != 0 && num2 != 0) {
+        if (num1 < num2)
+            num2 = num2 % num1
+        else
+            num1 = num1 % num2
     }
+    return m * n / (num1 + num2)
+}
+
+
 
 /**
  * Простая
@@ -101,25 +165,36 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    val m
-    val x
-    val n = m * x
-    m < x
-    return minOf(m)
+      if (n < 2) return 1
+        for (m in 2 .. n / 2) {
+           if (n % m == 0) return m
+
 }
+    return n
+}
+
+//    val m : Int
+//        while (m in 1..m) { ((n / m) != Double) return m
+//    else 0
+//    }
+
+//    val m
+//    val x
+//    val n = m * x
+//    m < x
+//    return minOf(m)
+// }
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    val m
-    val x
-    val n = m * x
-    m < x
-    return maxOf(m)
-}
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
+//    val m : Int
+//    while (m in m..1) { ((n / m) != Double) return m
+//        else return 0
+//    }
 
 /**
  * Простая
@@ -128,13 +203,13 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-   when { (n || m) ==  (i in 2 until number) -> return true
-       (n || !m) ==  (i in 2 until number) || ( number % i == 0 ) -> return "m not prime"
-       (m || !n) ==  (i in 2 until number) || ( number % i == 0 ) -> return "n not prime"
-       else (!m || !n) ==  ( number % i == 0 ) || ( number % i == 0 ) -> return " m and n not prime"
-}
-}
+fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+//    val x : Int
+//    val k : Int
+//     (m / x)
+//     (n / k)
+//    if (x != k) return true
+//}
 
 /**
  * Простая
@@ -144,7 +219,10 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-
+    for (k in sqrt(m.toDouble()).toInt()..sqrt(n.toDouble()).toInt())
+        if (k * k in m..n)
+            return true
+    return false
 }
 
 /**
@@ -163,7 +241,10 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Написать функцию, которая находит, сколько шагов требуется для
  * этого для какого-либо начального X > 0.
  */
-fun collatzSteps(x: Int): Int = TODO()
+ fun collatzSteps(x: Int): Int = TODO()
+//    if ((x / 2) == Int) use (x / 2) else use (3 * x + 1)
+//   return count for (x == 1)
+//}
 
 /**
  * Средняя
@@ -175,6 +256,9 @@ fun collatzSteps(x: Int): Int = TODO()
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
 fun sin(x: Double, eps: Double): Double = TODO()
+//    var k : Double = (0..k step 2)
+//    sin(x) = x - (x ^ k) / (k!)
+//}
 
 /**
  * Средняя
@@ -185,7 +269,9 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.cos и другие стандартные реализации функции косинуса в этой задаче запрещается.
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double {
+    return 0.0
+}
 
 /**
  * Средняя
@@ -194,7 +280,17 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var new = 0
+    var old = n
+    while (old != 0) {
+        new = new * 10 + old % 10
+        old = old / 10
+    }
+    return new
+}
+
+// n.toString().reversed().toInt()
 
 /**
  * Средняя

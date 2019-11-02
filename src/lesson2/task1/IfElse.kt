@@ -4,6 +4,7 @@ package lesson2.task1
 
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
+import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.sqrt
 
@@ -64,15 +65,78 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int) {
-    if (0 < age || age < 200) {
-        println("$age", "age")
-    } else {
-        println("Error")
+fun ageDescription(age: Int): String {
+    if (age in 1..20) {
+        when {
+            (age in 2..4) -> return ("$age года")
+            (age in 5..20) -> return ("$age лет")
+            (age == 1) -> return ("$age год")
+        }
     }
+    if (age in 21..99) {
+        when {
+            (age % 10 in 2..4) -> return ("$age года")
+            (age % 10 in 5..9) -> return ("$age лет")
+            (age % 10 == 1) -> return ("$age год")
+        }
+    }
+    if (age in 100..120) {
+        when {
+            (age % 100 in 2..4) -> return ("$age года")
+            (age % 100 in 5..20) -> return ("$age лет")
+            (age % 10 == 1) -> return ("$age год")
+        }
+    }
+    if (age in 121..200) {
+        when {
+            (age % 10 in 2..4) -> return ("$age года")
+            (age % 10 in 5..9) -> return ("$age лет")
+            (age == 1) -> return ("$age год")
+        }
+    }
+    return ("")
 }
 
 
+//(age in 1..20)
+//if (age == 1) return ("$age год")
+//if (age in 2..4) return ("$age года")
+//if (age in 5..20) return ("$age лет")
+
+//(age in 21..99)
+//if (age % 10 == 1) return ("$age год")
+//if (age in 21..99) return ("$age года")
+
+//(age in 100..121)
+//if (age % 100 == 1) return ("$age год")
+//if (age % 100 in 2..4) return ("$age года")
+//if (age % 100 in 5..20) return ("$age лет")
+
+//(age in 121..200)
+//if (age % 100 == 1) return ("$age год")
+//if (age in 121..200) return ("$age года")
+//else return ("$age года")
+//}
+//else when (age in 21..99) {
+//  (age % 10 == 1) -> return ("$age год")
+//   (age % 10 <= 2 && age % 10 >= 4) -> return ("$age года")
+//  (age % 10 <= 5 && age % 10 >= 20) -> return ("$age лет")
+// (age in 1..200)
+
+//   return when (age in 1..99) {
+//     (age % 10 == 1) -> ("$age год")
+//   (age <= 2 && age % 10 >= 3) -> ("$age года")
+// (age % 10 <= 4 && age % 10 >= 20) -> ("$age лет")
+// else -> {
+//   return when (age in 100..200) {
+// (age % 100 == 1) -> ("$age год")
+//(age % 100 <= 2 && age % 100 >= 3) -> ("$age года")
+//(age % 100 <= 4 && age % 100 >= 20) -> ("$age лет")
+//   else -> ("года")
+// }
+//   }
+//}
+//  }
 /**
  * Простая
  *
@@ -86,12 +150,13 @@ fun timeForHalfWay(
     t3: Double, v3: Double
 ): Double {
     val forHalfDist = (v1 * t1 + v2 * t2 + v3 * t3) / 2
-    if (forHalfDist <= v1 * t1) return forHalfDist / v1
-    if (forHalfDist <= (v1 * t1 + v2 * t2)) return (forHalfDist - v1 * t1)/ (v2 + t1)
-    else return (forHalfDist - (v1 * t1 + v2 * t2)) / (v3 + t1 + t2)
-    }
-
-
+    when {
+        (forHalfDist <= v1 * t1) -> (forHalfDist / v1)
+    (forHalfDist <= (v1 * t1 + v2 * t2)) -> (forHalfDist - v1 * t1) / (v2 + t1)
+        else -> (forHalfDist - (v1 * t1 + v2 * t2)) / (v3 + t1 + t2)
+}
+    return 0.0
+}
 /**
  * Простая
  *
@@ -105,22 +170,15 @@ fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
-): Int {
-    val rookX1 = x(x1 + x2 + x3 + ... xn)
-    val rookY1 = y(y1 + y2 + y3 + ... yn)
-    val rookX2 = x(x1 + x2 + x3 + ... xn)
-    val rookY2 = y(y1 + y2 + y3 + ... yn)
-    val kingX = x
-    val kingY = y
-
+): Int =
     when {
-        (kingX + kingY != (rookX1 + rookY1) || (rookX2 + rookY2)) -> 0
-        (kingX + kingY == rookX1 + rookY1) -> 1
-        (kingX == rookX2 + rookY2) -> 2
-        (kingX == (rookX1 + rookY1) + (rookX2 + rookY2)) -> 3
+        (kingX == rookX1 || kingY == rookY1) && (kingX == rookX2 || kingY == rookY2) -> 3
+        (kingX == rookX1 || kingY == rookY1) -> 1
+        (kingX == rookX2 || kingY == rookY2) -> 2
+        else -> 0
     }
-}
 
+//  (kingX != rookX1 || kingX != rookY1) && (kingY != rookX2 || kingY != rookY2) -> return 0
 /**
  * Простая
  *
@@ -135,24 +193,31 @@ fun rookOrBishopThreatens(
     kingX: Int, kingY: Int,
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
-): Int {
-    val rookX = x(x1 + x2 + x3 + ... xn)
-    val rookY = y(y1 + y2 + y3 + ... Yn)
-    val bishopX = (x / y)((x1 / y) + (x2 / y) + (x3 / y) + ...(xn / y))
-    val bishopY = (y / x)((y1 / x) + (y2 / x) + (y3 / x) + ...(yn / x))
-    val kingX = x
-    val kingY = y
-
+): Int =
     when {
-        (kingX + kingY != (rookX + rookY) || (bishopX + bishopY)) -> 0
-        (kingX + kingY == rookX + rookY) -> 1
-        (kingX == bishopX + bishopY) -> 2
-        (kingX == (rookX + rookY) + (bishopX + bishopY)) -> 3
-
-
+        (abs(kingX - kingY) == abs(bishopX - bishopY)) && (kingX == rookX || kingY == rookY) -> 3
+        (kingX == rookX || kingY == rookY) -> 1
+        abs(kingX - kingY) == abs(bishopX - bishopY) -> 2
+        else -> 0
     }
-}
+// (kingX != bishopX || kingX != bishopY) && (kingY != rookX || kingY != rookY) -> return 0
 
+
+//    val rookX = x(x1 + x2 + x3 + ... xn)
+//    val rookY = y(y1 + y2 + y3 + ... Yn)
+//    val bishopX = (x / y)((x1 / y) + (x2 / y) + (x3 / y) + ...(xn / y))
+//    val bishopY = (y / x)((y1 / x) + (y2 / x) + (y3 / x) + ...(yn / x))
+//    val kingX = x
+//    val kingY = y
+//
+//    when {
+//        (kingX + kingY != (rookX + rookY) || (bishopX + bishopY)) -> 0
+//        (kingX + kingY == rookX + rookY) -> 1
+//        (kingX == bishopX + bishopY) -> 2
+//        (kingX == (rookX + rookY) + (bishopX + bishopY)) -> 3
+//
+//
+//    }
 /**
  * Простая
  *
@@ -162,13 +227,12 @@ fun rookOrBishopThreatens(
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-return when {
-    (a + b < c || a + c < b || b + c < a) -> -1
-    ((sqr(a) + sqr(b) == sqr(c) || sqr(a) + sqr(c) == sqr(b) || sqr(b) + sqr(c) == sqr(a))) -> 1
-    ((sqr(a) + sqr(b) < sqr(c) || sqr(a) + sqr(c) < sqr(b) || sqr(b) + sqr(c) < sqr(a))) -> 2
-    else -> return (0)
-}
-
+    return when {
+        (a + b < c || a + c < b || b + c < a) -> -1
+        ((sqr(a) + sqr(b) == sqr(c) || sqr(a) + sqr(c) == sqr(b) || sqr(b) + sqr(c) == sqr(a))) -> 1
+        ((sqr(a) + sqr(b) < sqr(c) || sqr(a) + sqr(c) < sqr(b) || sqr(b) + sqr(c) < sqr(a))) -> 2
+        else -> return (0)
+    }
 }
 
 /**
@@ -180,10 +244,22 @@ return when {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    b >= a || d >= c
-    val intersectX = (d - b) / (a - c)
-    val intersectY = ((c * b - a * d) / (c - a))
-    return (intersectX, intersectY)
- {if (x = dont exist || y = dont exist) return (-1)
+    a <= b
+    c <= d
+    when {
+        (b < c) -> return ((b / c) / 2)
+        (c < b) -> return ((b / c) / 2)
+        else -> -1
+    }
+    return 0
 }
-}
+// b >= a || d >= c
+//val intersectX = (d - b) / (a - c)
+//val intersectY = ((c * b - a * d) / (c - a))
+//return ("x: $intersectX , y:$intersectY")
+//}
+// {if (x = dont exist || y = dont exist) return (-1)
+// return 0
+
+//|--------|-----|-------------|
+//a        b     c              d
