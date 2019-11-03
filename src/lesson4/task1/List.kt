@@ -189,7 +189,7 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> {
     var sum = 0
     if (list.isNotEmpty()) {
 for (i in list.indices) {
-    list[i] += sum
+    list[i] = list[i] + sum
     sum = list[i]
 }
 }
