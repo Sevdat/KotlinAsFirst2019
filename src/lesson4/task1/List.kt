@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson3.task1.minDivisor
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -184,8 +185,18 @@ fun polynom(p: List<Int>, x: Int): Int =
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun accumulate(list: MutableList<Int>): MutableList<Int> =
-    list.indices.fold(0) { _, _ -> list[0] + (list.reversed() - list [0]) }
+fun accumulate(list: MutableList<Int>): MutableList<Int> {
+    var sum = 0
+    if (list.isNotEmpty()) {
+for (i in list.indices) {
+    list[i] += sum
+    sum = list[i]
+}
+}
+    return list
+}
+
+   // list.forEachIndex( i, list[0] + (list.reversed() - list [0]))
 
 //first in list + list reverse minus first in list
 //    a.indices.fold(0) { first, i -> first + a[i] * b[i] }
@@ -197,8 +208,26 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> =
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun factorize(n: Int): List<Int> {
+    var num = n
+    val result = mutableListOf<Int>()
+    var div: Int
+    while (num >= 2) {
+        div = minDivisor(num)
+        result.add(div)
+        num = num / div
+    }
+    return result.toList()
+}
 
+//{
+//    if (n < 2) return 1
+//    for (m in 2 .. n / 2) {
+//        if (n % m == 0) return m
+//
+//    }
+//    return n
+//}
 /**
  * Сложная
  *
