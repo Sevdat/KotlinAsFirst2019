@@ -69,7 +69,13 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val string = str
+    val formatter = DateTimeFormatter.ofPattern("d, MMMM, yyyy")
+ val date = LocalDate.parse(string, formatter)
+ return date
+ }
+
 
 /**
  * Средняя
